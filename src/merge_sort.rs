@@ -53,3 +53,29 @@ fn merge(left: &mut [i32], right: &mut [i32], arr: &mut [i32]) {
         k += 1;
     }
 }
+
+#[cfg(test)]
+mod merge_sort_test {
+    pub use super::*;
+
+    #[test]
+    pub fn should_sort() {
+        let mut arr = [-1, 1, 2, 5, -10, 100, 5, 10];
+        merge_sort(&mut arr);
+        assert_eq!(arr, [-10, -1, 1, 2, 5, 5, 10, 100]);
+    }
+
+    #[test]
+    pub fn should_return_empty() {
+        let mut arr = [];
+        merge_sort(&mut arr);
+        assert_eq!(arr, []);
+    }
+
+    #[test]
+    pub fn should_return_one_element() {
+        let mut arr = [1];
+        merge_sort(&mut arr);
+        assert_eq!(arr, [1]);
+    }
+}

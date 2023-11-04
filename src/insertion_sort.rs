@@ -15,3 +15,29 @@ fn swap(arr: &mut [i32], i: usize, j: usize) {
     arr[i] = arr[j];
     arr[j] = tmp;
 }
+
+#[cfg(test)]
+mod insertion_sort_test {
+    use super::*;
+
+    #[test]
+    pub fn should_sort() {
+        let mut arr = [-1, 1, 2, 5, -10, 100, 5, 10];
+        insertion_sort(&mut arr);
+        assert_eq!(arr, [-10, -1, 1, 2, 5, 5, 10, 100]);
+    }
+
+    #[test]
+    pub fn should_return_empty() {
+        let mut arr = [];
+        insertion_sort(&mut arr);
+        assert_eq!(arr, []);
+    }
+
+    #[test]
+    pub fn should_return_one_element() {
+        let mut arr = [1];
+        insertion_sort(&mut arr);
+        assert_eq!(arr, [1]);
+    }
+}

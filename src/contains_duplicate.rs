@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 pub fn contains_duplicate(nums: Vec<i32>) -> bool {
     let mut num_mapping = HashSet::new();
     nums.iter().any(|x| !num_mapping.insert(x))

@@ -26,6 +26,7 @@ fn merge(left: &mut [i32], right: &mut [i32], arr: &mut [i32]) {
     let mut j = 0;
     let mut k = 0;
 
+    // Compare the left and right parts
     while i < left.len() && j < right.len() {
         if left[i] < right[j] {
             arr[k] = left[i];
@@ -38,12 +39,14 @@ fn merge(left: &mut [i32], right: &mut [i32], arr: &mut [i32]) {
         k += 1;
     }
 
+    // Copy the remaining left elements
     while i < left.len() {
         arr[k] = left[i];
         i += 1;
         k += 1;
     }
 
+    // Copy the remaining right elements
     while j < right.len() {
         arr[k] = right[j];
         j += 1;

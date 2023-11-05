@@ -1,13 +1,18 @@
 pub fn get_sum(a: i32, b: i32) -> i32 {
-    let mut shifted_value = b;
-    let mut result = 0;
+    let mut x = a.clone();
+    let mut y = b.clone();
 
-    while shifted_value != 0 {
-        result = a ^ shifted_value;
-        shifted_value = (a & shifted_value) << 1;
+    if y == 0 {
+        return x;
     }
 
-    result
+    while y != 0 {
+        let carry = x & y;
+        x = x ^ y;
+        y = carry << 1;
+    }
+
+    x
 }
 
 #[cfg(test)]
@@ -32,5 +37,10 @@ mod sum_of_two_integers_test {
     #[test]
     pub fn should_return_sum_of_two_integers_for_edge_case_3() {
         assert_eq!(get_sum(0, 0), 0);
+    }
+
+    #[test]
+    pub fn should_return_sum_of_two_integers_for_edge_case_4() {
+        assert_eq!(get_sum(2, 3), 5);
     }
 }

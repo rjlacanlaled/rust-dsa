@@ -1,9 +1,10 @@
 // array
 mod arrays;
 mod sorting;
+mod binary;
 
 fn main() {
-    let mut arr = [7, 8, 1, 2, 3, 4, 5, 6];
+    let mut arr = [1, 8, 6, 2, 5, 4, 8, 3, 7];
 
     // insertion_sort::insertion_sort(&mut arr);
     // println!("insertion_sort {:?}", arr);
@@ -17,6 +18,9 @@ fn main() {
     // let min = arrays::min_rotated_sorted_array::find_min(arr.to_vec());
     // println!("min {:?}", min);
 
-    let target = arrays::search_rotated_sorted_array::search(arr.to_vec(), 7);
-    println!("target {:?}", target);
+    // let target = arrays::three_sum::three_sum(arr.to_vec());
+    // println!("target {:?}", target);
+
+    // let sum = arrays::container_with_most_water::max_area(arr.to_vec());
+    // println!("sum {:?}", sum);
 }

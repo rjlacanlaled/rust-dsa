@@ -5,3 +5,6 @@ pub mod max_profit;
 pub mod max_product_sub_array;
 pub mod min_rotated_sorted_array;
 pub mod search_rotated_sorted_array;
+pub mod three_sum;
+pub mod two_sum_sorted_array;
+pub mod container_with_most_water;

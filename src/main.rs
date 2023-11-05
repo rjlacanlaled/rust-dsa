@@ -7,9 +7,12 @@ mod quick_sort;
 mod contains_duplicate;
 mod product_except_self;
 mod max_sub_array;
+mod max_profit;
+mod max_product_sub_array;
 
 fn main() {
-    let mut arr = [-2, 1];
+    let mut arr = [2, -5, -2, -4, 3];
+
     // insertion_sort::insertion_sort(&mut arr);
     // println!("insertion_sort {:?}", arr);
 
@@ -19,5 +22,5 @@ fn main() {
     // quick_sort::quick_sort(&mut arr);
     // println!("quick_sort {:?}", arr)
 
-    max_sub_array::max_sub_array(arr.to_vec());
+    max_product_sub_array::max_product(arr.to_vec());
 }

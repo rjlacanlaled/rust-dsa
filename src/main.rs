@@ -23,4 +23,7 @@ fn main() {
 
     // let sum = arrays::container_with_most_water::max_area(arr.to_vec());
     // println!("sum {:?}", sum);
+
+    let sum = binary::sum_of_two_integers::get_sum(1, 6);
+    println!("sum {:?}", sum)
 }

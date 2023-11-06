@@ -8,3 +8,4 @@ pub mod search_rotated_sorted_array;
 pub mod three_sum;
 pub mod two_sum_sorted_array;
 pub mod container_with_most_water;
+pub mod three_sum_closest;

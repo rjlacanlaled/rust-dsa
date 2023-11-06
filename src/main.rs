@@ -4,7 +4,7 @@ mod sorting;
 mod binary;
 
 fn main() {
-    let mut arr = [1, 8, 6, 2, 5, 4, 8, 3, 7];
+    let mut arr = [0, 0, 0, 1, 10, 100, -2, -10, 5, 5, 10, 100];
 
     // insertion_sort::insertion_sort(&mut arr);
     // println!("insertion_sort {:?}", arr);
@@ -24,6 +24,6 @@ fn main() {
     // let sum = arrays::container_with_most_water::max_area(arr.to_vec());
     // println!("sum {:?}", sum);
 
-    let sum = binary::sum_of_two_integers::get_sum(2, 3);
+    let sum = arrays::three_sum_closest::three_sum_closest(arr.to_vec(), 199);
     println!("sum {:?}", sum)
 }

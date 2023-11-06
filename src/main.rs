@@ -2,6 +2,7 @@
 mod arrays;
 mod sorting;
 mod binary;
+mod dynamic_programming;
 
 fn main() {
     let mut arr = [0, 0, 0, 1, 10, 100, -2, -10, 5, 5, 10, 100];
@@ -24,6 +25,9 @@ fn main() {
     // let sum = arrays::container_with_most_water::max_area(arr.to_vec());
     // println!("sum {:?}", sum);
 
-    let sum = arrays::three_sum_closest::three_sum_closest(arr.to_vec(), 199);
-    println!("sum {:?}", sum)
+    // let sum = arrays::three_sum_closest::three_sum_closest(arr.to_vec(), 199);
+    // println!("sum {:?}", sum)
+
+    let steps = dynamic_programming::longest_increasing_subsequence::length_of_lis(vec![1, 2, 5]);
+    println!("steps {:?}", steps);
 }

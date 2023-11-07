@@ -7,11 +7,11 @@ mod binary;
 mod dynamic_programming;
 
 fn main() {
-    let nums = [];
+    let nums = [5, 10, 1, 100, 1, 5, 50];
 
     // let max_average = find_max_average(vec![1, 12, -5, -6, 50, 3], 4);
     // println!("{}", max_average);
-    let sum = add_recursive(nums.to_vec());
+    let sum = max_recursive(nums.to_vec());
     println!("{}", sum);
 }
 
@@ -86,4 +86,16 @@ pub fn add_recursive(nums: Vec<i32>) -> i32 {
     }
 
     nums[0] + add_recursive(nums[1..].to_vec())
+}
+
+pub fn max_recursive(nums: Vec<i32>) -> i32 {
+    if nums.len() < 1 {
+        return 0;
+    }
+
+    if nums.len() == 1 {
+        return nums[0];
+    }
+
+    nums[0].max(max_recursive(nums[1..].to_vec()))
 }

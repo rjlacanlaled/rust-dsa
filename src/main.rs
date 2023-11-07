@@ -7,10 +7,12 @@ mod binary;
 mod dynamic_programming;
 
 fn main() {
-    let nums = [1, 2, 3, 1];
+    let nums = [];
 
-    let max_average = find_max_average(vec![1, 12, -5, -6, 50, 3], 4);
-    println!("{}", max_average);
+    // let max_average = find_max_average(vec![1, 12, -5, -6, 50, 3], 4);
+    // println!("{}", max_average);
+    let sum = add_recursive(nums.to_vec());
+    println!("{}", sum);
 }
 
 pub fn contains_nearby_duplicate(nums: Vec<i32>, k: i32) -> bool {
@@ -57,4 +59,31 @@ pub fn find_max_average(nums: Vec<i32>, k: i32) -> f64 {
     max_average
 }
 
-pub fn longest_nice_substring(s: String) -> String {}
+pub fn total_fruit(fruits: Vec<i32>) -> i32 {
+    let mut basket: HashMap<i32, i32> = HashMap::new();
+
+    let mut left = 0;
+    let mut right = 1;
+    let mut max_fruits = 0;
+
+    // 1, 2, 1
+    while left < right {
+        // Add the first fruit to the basket
+        // [1] = 1
+
+    }
+
+    0
+}
+
+pub fn add_recursive(nums: Vec<i32>) -> i32 {
+    if nums.len() < 1 {
+        return 0;
+    }
+
+    if nums.len() == 1 {
+        return nums[0];
+    }
+
+    nums[0] + add_recursive(nums[1..].to_vec())
+}

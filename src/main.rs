@@ -33,3 +33,38 @@ fn main() {
     );
     println!("steps {:?}", steps);
 }
+
+
+#[derive(Debug, PartialEq, Eq)]
+pub struct TreeNode {
+  pub val: i32,
+  pub left: Option<Rc<RefCell<TreeNode>>>,
+  pub right: Option<Rc<RefCell<TreeNode>>>,
+}
+
+impl TreeNode {
+  #[inline]
+  pub fn new(val: i32) -> Self {
+    TreeNode {
+      val,
+      left: None,
+      right: None
+    }
+  }
+}
+use std::borrow::BorrowMut;
+use std::rc::Rc;
+use std::cell::RefCell;
+
+pub fn is_same_tree(p: Option<Rc<RefCell<TreeNode>>>, q: Option<Rc<RefCell<TreeNode>>>) -> bool {
+    match (p, q) {
+        (None, None) => true,
+        (None, Some(_)) => false,
+        (Some(_), None) => false,
+        (Some(ref m), Some(ref n))=> {
+            let m = m.borrow();
+            let n = n.borrow();
+            m.val == n.val && is_same_tree(n.left.clone(), m.left.clone()) && is_same_tree(n.right.clone(), m.right.clone())
+        }
+    }
+}

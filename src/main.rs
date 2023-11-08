@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{ HashMap, HashSet };
 
 // array
 mod arrays;
@@ -7,12 +7,27 @@ mod binary;
 mod dynamic_programming;
 
 fn main() {
-    let nums = [1, 2, 3, 4, 5, 6, 7, 8];
+    // let mut root = TreeNode::new(1);
+    // let mut root_left = TreeNode::new(2);
+    // let mut root_right = TreeNode::new(2);
+    // let root_left_left = TreeNode::new(3);
+    // let root_left_right = TreeNode::new(4);
+    // let root_right_left = TreeNode::new(4);
+    // let root_right_right = TreeNode::new(3);
 
-    // let max_average = find_max_average(vec![1, 12, -5, -6, 50, 3], 4);
-    // println!("{}", max_average);
-    let sum = binary_search_recurisve(nums.to_vec(), -1);
-    println!("{}", sum);
+    // root_left.left = Some(Rc::new(RefCell::new(root_left_left)));
+    // root_left.right = Some(Rc::new(RefCell::new(root_left_right)));
+    // root_right.left = Some(Rc::new(RefCell::new(root_right_left)));
+    // root_right.right = Some(Rc::new(RefCell::new(root_right_right)));
+    // root.left = Some(Rc::new(RefCell::new(root_left)));
+    // root.right = Some(Rc::new(RefCell::new(root_right)));
+
+    // let root_node = Some(Rc::new(RefCell::new(root)));
+
+    // let is_sym = Solutions::is_symmetric(root_node);
+
+    // println!("{:?}", is_sym);
+    test_deque();
 }
 
 pub fn contains_nearby_duplicate(nums: Vec<i32>, k: i32) -> bool {
@@ -124,23 +139,22 @@ pub fn binary_search_recurisve(nums: Vec<i32>, target: i32) -> bool {
     false
 }
 
-
 #[derive(Debug, PartialEq, Eq)]
 pub struct TreeNode {
-  pub val: i32,
-  pub left: Option<Rc<RefCell<TreeNode>>>,
-  pub right: Option<Rc<RefCell<TreeNode>>>,
+    pub val: i32,
+    pub left: Option<Rc<RefCell<TreeNode>>>,
+    pub right: Option<Rc<RefCell<TreeNode>>>,
 }
 
 impl TreeNode {
-  #[inline]
-  pub fn new(val: i32) -> Self {
-    TreeNode {
-      val,
-      left: None,
-      right: None
+    #[inline]
+    pub fn new(val: i32) -> Self {
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
-  }
 }
 use std::borrow::BorrowMut;
 use std::rc::Rc;
@@ -151,10 +165,144 @@ pub fn is_same_tree(p: Option<Rc<RefCell<TreeNode>>>, q: Option<Rc<RefCell<TreeN
         (None, None) => true,
         (None, Some(_)) => false,
         (Some(_), None) => false,
-        (Some(ref m), Some(ref n))=> {
+        (Some(ref m), Some(ref n)) => {
             let m = m.borrow();
             let n = n.borrow();
-            m.val == n.val && is_same_tree(n.left.clone(), m.left.clone()) && is_same_tree(n.right.clone(), m.right.clone())
+            m.val == n.val &&
+                is_same_tree(n.left.clone(), m.left.clone()) &&
+                is_same_tree(n.right.clone(), m.right.clone())
         }
     }
+}
+
+pub fn quicksort_recursive(nums: Vec<i32>) -> Vec<i32> {
+    if nums.len() < 2 {
+        return nums;
+    }
+
+    let pivot = nums[0];
+    let left = nums[1..]
+        .iter()
+        .filter_map(|&x| if x <= pivot { Some(x) } else { None })
+        .collect::<Vec<i32>>();
+    let right = nums[1..]
+        .iter()
+        .filter_map(|&x| if x > pivot { Some(x) } else { None })
+        .collect::<Vec<i32>>();
+
+    // Recursively sort the left and right subarrays
+    let left = quicksort_recursive(left);
+    let right = quicksort_recursive(right);
+
+    // Merge the sorted arrays
+    [left, vec![pivot], right].concat()
+}
+
+pub fn sorted_array_to_bst(nums: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
+    if nums.len() < 1 {
+        return None;
+    }
+
+    if nums.len() < 2 {
+        return Some(Rc::new(RefCell::new(TreeNode::new(nums[0]))));
+    }
+
+    let mid = nums.len() / 2;
+    let mut root = TreeNode::new(nums[mid]);
+    root.left = sorted_array_to_bst(nums[..mid].to_vec());
+    root.right = sorted_array_to_bst(nums[mid + 1..].to_vec());
+
+    Some(Rc::new(RefCell::new(root)))
+}
+
+pub fn majority_element(nums: Vec<i32>) -> i32 {
+    let mut mapping: std::collections::HashMap<i32, i32> = std::collections::HashMap::new();
+    let majority = (nums.len() as i32) / 2;
+
+    for num in nums {
+        *mapping.entry(num).or_insert(0) += 1;
+
+        let count = mapping.get(&num).unwrap();
+        if *count > majority {
+            return num;
+        }
+    }
+
+    0
+}
+
+struct Solutions;
+impl Solutions {
+    pub fn is_symmetric(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
+        match root {
+            None => true,
+            Some(node) => {
+                Self::is_symmetric_helper(node.borrow().left.clone(), node.borrow().right.clone())
+            }
+        }
+    }
+
+    fn is_symmetric_helper(
+        left: Option<Rc<RefCell<TreeNode>>>,
+        right: Option<Rc<RefCell<TreeNode>>>
+    ) -> bool {
+        match (left, right) {
+            (None, None) => true,
+            (Some(m), Some(n)) => {
+                let m = m.borrow();
+                let n = n.borrow();
+                m.val == n.val &&
+                    Self::is_symmetric_helper(m.left.clone(), n.right.clone()) &&
+                    Self::is_symmetric_helper(m.right.clone(), n.left.clone())
+            }
+            _ => false,
+        }
+    }
+}
+
+use std::collections::VecDeque;
+pub fn test_deque() {
+    let mut network = HashMap::new();
+    network.insert("alice", vec!["bob", "claire"]);
+    network.insert("bob", vec!["dylan", "claire"]);
+    network.insert("claire", vec!["alice", "bob", "dylan"]);
+    network.insert("dylan", vec!["alice"]);
+    let mut queue = VecDeque::new();
+    let mut searched = HashSet::new();
+
+    queue.push_back("alice");
+
+    println!("current queue: {:?}", queue);
+
+    while queue.len() > 0 {
+        let person = queue.pop_front();
+
+        match person {
+            None => println!("No more person"),
+            Some(p) => {
+                println!("searching {}", p);
+                searched.insert(p);
+
+                let person_network = network.get(p);
+
+                match person_network {
+                    None => println!("No network for {}", p),
+                    Some(network) => {
+                        for person in network {
+                            if !searched.contains(person) {
+                                queue.push_back(person);
+                                continue;
+                            }
+
+                            println!("{} is already searched", person);
+                        }
+                    }
+                }
+            }
+        }
+
+        println!("new queue: {:?}", queue);
+    }
+
+    ()
 }

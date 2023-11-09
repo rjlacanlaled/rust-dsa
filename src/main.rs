@@ -27,7 +27,7 @@ fn main() {
     // let is_sym = Solutions::is_symmetric(root_node);
 
     // println!("{:?}", is_sym);
-    let alpha = largest_alphabetical_string(5008);
+    let alpha = largest_alphabetical_string(15);
     println!("{}", alpha);
 }
 
@@ -310,7 +310,6 @@ pub fn test_deque() {
 
 
 pub fn largest_alphabetical_string(num: i32) -> String {
-
     let mut result = vec![0; 26];
     let mut str_result: String = "".to_owned();
     let alphabet = "abcdefghijklmnopqrstuvwxyz".to_owned();
@@ -319,7 +318,6 @@ pub fn largest_alphabetical_string(num: i32) -> String {
     for i in (0..26).rev(){
         let count = num / i32::pow(2, i);
         result[i as usize] = count;
-
         num = num % i32::pow(2, i);
     }
 
@@ -330,8 +328,6 @@ pub fn largest_alphabetical_string(num: i32) -> String {
         str_result.push_str(&append_str);
     }
 
-
     str_result
-
 }
 

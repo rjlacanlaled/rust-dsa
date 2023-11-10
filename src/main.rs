@@ -27,8 +27,9 @@ fn main() {
     // let is_sym = Solutions::is_symmetric(root_node);
 
     // println!("{:?}", is_sym);
-    let alpha = largest_alphabetical_string(15);
-    println!("{}", alpha);
+    // let alpha = longest_common_prefix(vec!["dog".to_string(), "racecar".to_string(), "car".to_string()]);
+    // println!("{}", alpha);
+    dijkstra_shortest_path();
 }
 
 pub fn contains_nearby_duplicate(nums: Vec<i32>, k: i32) -> bool {
@@ -262,6 +263,7 @@ impl Solutions {
 }
 
 use std::collections::VecDeque;
+use std::thread::current;
 pub fn test_deque() {
     let mut network = HashMap::new();
     network.insert("alice", vec!["bob", "claire"]);
@@ -310,24 +312,94 @@ pub fn test_deque() {
 
 
 pub fn largest_alphabetical_string(num: i32) -> String {
-    let mut result = vec![0; 26];
+    const ALPHABET: &'static str = "abcdefghijklmnopqrstuvwxyz";
     let mut str_result: String = "".to_owned();
-    let alphabet = "abcdefghijklmnopqrstuvwxyz".to_owned();
     let mut num = num;
 
-    for i in (0..26).rev(){
-        let count = num / i32::pow(2, i);
-        result[i as usize] = count;
-        num = num % i32::pow(2, i);
-    }
-
-    for i in (0..26).rev() {
-        let letter = alphabet.as_bytes()[i];
-        let letter = letter as char;
-        let append_str = letter.to_string().repeat(result[i as usize] as usize);
-        str_result.push_str(&append_str);
+    for i in (0..ALPHABET.len()).rev() {
+        let letter_count = num / i32::pow(2, i as u32);
+        num = num % i32::pow(2, i as u32);
+        str_result.push_str(&(ALPHABET.as_bytes()[i as usize] as char).to_string().repeat(letter_count as usize));
     }
 
     str_result
 }
 
+pub fn longest_common_prefix(strs: Vec<String>) -> String {
+    let mut lcp = strs[0].to_string();
+    for str in strs[1..].to_vec() {
+        let mut new_lcp = "".to_string();        
+        if lcp.len() < 1 {
+            return "".to_string();
+        }
+        for i in 0..lcp.len().min(str.len()) {
+            if lcp.as_bytes()[i] == str.as_bytes()[i] {
+                new_lcp.push_str(&(str.as_bytes()[i] as char).to_string());
+                continue;
+            }
+
+            break;
+        }
+        lcp = new_lcp.clone();
+    }
+    lcp
+}
+
+
+pub fn dijkstra_shortest_path() -> HashMap<&'static str, (i32, Option<&'static str>)> {
+    let mut nodes = HashMap::new();
+    let mut path: HashMap<&str, (i32, Option<&str>)> = HashMap::new();
+    let mut visited = HashSet::new();
+    
+    nodes.insert("a", [("b", 1), ("c", 3)]);
+    nodes.insert("b", [("c", 1), ("d", 5)]);
+    nodes.insert("c", [("e", 10), ("d", 2)]);
+
+    path.insert("a", (0, None));
+    path.insert("b", (i32::MAX, None));
+    path.insert("c", (i32::MAX, None));
+    path.insert("d", (i32::MAX, None));
+    path.insert("e", (i32::MAX, None));
+
+    let mut queue = VecDeque::new();
+    queue.push_back("a");
+
+    while queue.len() > 0 {
+        println!("queue {:?}", queue);
+        let current_node = queue.pop_front();
+
+        println!("current node {:?}", current_node);
+        match current_node {
+            None => {},
+            Some(node) => {
+                if !visited.contains(node) {
+                    visited.insert(node);
+                    println!("visited nodes {:?}", visited);
+                    println!("node {:?}", visited);
+                    let neighbors = nodes.get(node);
+                    if let Some(&x) = neighbors {
+                        for i in 0..x.len() {
+                            queue.push_back(x[i].0);
+                            // Calculate the minimum path from node 1 -> node 2
+                            let distance = match path.get(node) {
+                                None => (0, None),
+                                Some(p) => {
+                                    let current_path = path.get(x[i].0);
+                                    println!("current_path {:?}", current_path);
+                                    // Shortest distance via parent node
+                                    ((p.0 + x[i].1).min(path.get(x[i].0).unwrap().0), Some(node))
+                                }
+                            };
+                            path.insert(x[i].0, distance);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    println!("{:?}", path);
+
+    path
+
+}

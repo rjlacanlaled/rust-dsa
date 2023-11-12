@@ -263,6 +263,7 @@ impl Solutions {
 }
 
 use std::collections::VecDeque;
+use std::thread::current;
 pub fn test_deque() {
     let mut network = HashMap::new();
     network.insert("alice", vec!["bob", "claire"]);

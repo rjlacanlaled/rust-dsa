@@ -27,7 +27,9 @@ fn main() {
     // let is_sym = Solutions::is_symmetric(root_node);
 
     // println!("{:?}", is_sym);
-    test_deque();
+    // test_deque();
+    let fib = fibonacci(99);
+    println!("fib: {}", fib);
 }
 
 pub fn contains_nearby_duplicate(nums: Vec<i32>, k: i32) -> bool {
@@ -305,4 +307,28 @@ pub fn test_deque() {
     }
 
     ()
+}
+
+pub fn fibonacci(n: u128) -> u128 {
+    let mut dp: HashMap<u128, u128> = HashMap::new();
+
+    fn fib(n: u128, dp: &mut HashMap<u128, u128>) -> u128 {
+        // return cached data
+        if let Some(memo) = dp.get(&n) {
+            return *memo;
+        }
+
+        if n < 2 {
+            return n;
+        }
+
+        println!("calculating fib({})", n);
+        let result = fib(n - 1, dp) + fib(n - 2, dp);
+        dp.insert(n, result);
+        result
+    }
+
+    fib(n, &mut dp)
+
+    // 1, 1, 2
 }

@@ -5,6 +5,7 @@ mod arrays;
 mod sorting;
 mod binary;
 mod dynamic_programming;
+mod linked_lists;
 
 fn main() {
     // let mut root = TreeNode::new(1);
